@@ -1,29 +1,72 @@
-var volumeUp = {
-    name: 'Volume Up',
-    route: 'audio/volume/up'
-};
-var volumeDown = {
-    name: 'Volume Down',
-    route: 'audio/volume/down'
-};
-var inputToslink = {
-    name: 'Input Toslink',
-    route: 'audio/input/toslink'
-};
-var inputAnalog = {
-    name: 'Input Down',
-    route: 'audio/input/analog'
-};
+var Direction;
+(function (Direction) {
+    Direction[Direction["up"] = 0] = "up";
+    Direction[Direction["down"] = 1] = "down";
+})(Direction || (Direction = {}));
+function upperCaseFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+function volume(direction) {
+    var dirString = Direction[direction];
+    return {
+        name: 'Video ' + upperCaseFirst(dirString),
+        route: 'audio/volume/' + dirString
+    };
+}
+function brightness(direction) {
+    var dirString = Direction[direction];
+    return {
+        name: 'Brightness ' + upperCaseFirst(dirString),
+        route: 'audio/brightness/' + dirString
+    };
+}
+function audio(setting) {
+    return {
+        name: 'Video ' + upperCaseFirst(setting),
+        route: 'audio/input/' + setting
+    };
+}
 function video(setting) {
     return {
         name: 'Video ' + setting,
         route: 'video/input/' + setting
     };
 }
-var appleTV = {
-    name: 'AppleTV',
-    changes: [
-        inputToslink,
-        video(4)
-    ]
-};
+var sourceList = [
+    {
+        name: 'Apple TV',
+        changes: [
+            audio('toslink'),
+            video(4)
+        ]
+    }, {
+        name: 'Record Player',
+        changes: [audio('analog')]
+    }, {
+        name: 'HDMI',
+        changes: [
+            audio('toslink'),
+            video(1)
+        ]
+    }, {
+        name: 'Wii',
+        changes: [
+            audio('toslink'),
+            video(3)
+        ]
+    }
+];
+var sources = sourceList.reduce(function (obj, source) {
+    var name = source.name;
+    obj[name] = source.changes;
+    return obj;
+}, {});
+document.addEventListener("DOMContentLoaded", function () {
+    var sourceElements = document.getElementsByClassName('source');
+    Array.prototype.forEach.call(sourceElements, function (element) {
+        console.log('shh');
+        element.addEventListener('click', function (event) {
+            console.log(sources[event.target.title]);
+        });
+    });
+});

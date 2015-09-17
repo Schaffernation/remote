@@ -1,65 +1,90 @@
 interface Change {
-  name: String;
-  route: String;
+  name: string;
+  route: string;
 }
 
-const volumeUp: Change = {
-  name: 'Volume Up',
-  route: 'audio/volume/up'
+interface Source {
+  name: string;
+  changes: Change[];
 }
 
-const volumeDown: Change = {
-  name: 'Volume Down',
-  route: 'audio/volume/down'
+enum Direction { up, down }
+
+function upperCaseFirst (str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-const inputToslink: Change = {
-  name: 'Input Toslink',
-  route: 'audio/input/toslink'
+function volume(direction: Direction) {
+  const dirString = Direction[direction];
+  return {
+    name: 'Video ' + upperCaseFirst(dirString),
+    route: 'audio/volume/' + dirString
+  }
 }
 
-const inputAnalog: Change = {
-  name: 'Input Down',
-  route: 'audio/input/analog'
+function brightness(direction: Direction) {
+  const dirString = Direction[direction];
+  return {
+    name: 'Brightness ' + upperCaseFirst(dirString),
+    route: 'audio/brightness/' + dirString
+  }
+}
+
+function audio(setting: string) {
+  return {
+    name: 'Video ' + upperCaseFirst(setting),
+    route: 'audio/input/' + setting
+  }
 }
 
 function video(setting: number) {
   return {
     name: 'Video ' + setting,
-    route: 'video/input/' + setting,
+    route: 'video/input/' + setting
   }
 }
 
-interface Source {
-  name: String;
-  changes: Change[];
+const sourceList: Source[] = [
+  {
+    name: 'Apple TV',
+    changes: [
+      audio('toslink'),
+      video(4)
+    ]
+  }, {
+    name: 'Record Player',
+    changes: [ audio('analog') ]
+  }, {
+    name: 'HDMI',
+    changes: [
+      audio('toslink'),
+      video(1)
+    ]
+  }, {
+    name: 'Wii',
+    changes: [
+      audio('toslink'),
+      video(3)
+    ]
+  }
+];
+
+const sources = sourceList.reduce((obj, source) => {
+  var name = source.name;
+  obj[name] = source.changes;
+  return obj;
+}, {}) 
+
+function attachListenerForClass (className: string, listener: EventListener)  {
+  const elements = document.getElementsByClassName(className);
+  Array.prototype.forEach.call(elements, element => {
+    element.addEventListener('click', listener);
+  }
 }
 
-const appleTV: Source = {
-  name: 'AppleTV',
-  changes: [
-    inputToslink,
-    video(4)
-  ]
-}
-
-const recordPlayer: Source = {
-  name: 'Record Player',
-  changes: [ inputAnalog ]
-}
-
-const hdmi: Source = {
-  name: 'HDMI',
-  changes: [
-    inputToslink,
-    video(1)
-  ]
-}
-
-const wii: Source = {
-  name: 'Wii',
-  changes: [
-    inputToslink,
-    video(3)
-  ]
-}
+document.addEventListener("DOMContentLoaded", () =>  {
+  attachListenerForClass('source', event => {
+    console.log(event.target.title);
+    console.log(sources[event.target.title]);
+  });
+});
