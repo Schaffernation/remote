@@ -61,12 +61,15 @@ var sources = sourceList.reduce(function (obj, source) {
     obj[name] = source.changes;
     return obj;
 }, {});
+function attachListenerForClass(className, listener) {
+    var elements = document.getElementsByClassName(className);
+    Array.prototype.forEach.call(elements, function (element) {
+        element.addEventListener('click', listener, false);
+    });
+}
 document.addEventListener("DOMContentLoaded", function () {
-    var sourceElements = document.getElementsByClassName('source');
-    Array.prototype.forEach.call(sourceElements, function (element) {
-        console.log('shh');
-        element.addEventListener('click', function (event) {
-            console.log(sources[event.target.title]);
-        });
+    attachListenerForClass('source', function (event) {
+        console.log(event.currentTarget.title);
+        console.log(sources[event.currentTarget.title]);
     });
 });

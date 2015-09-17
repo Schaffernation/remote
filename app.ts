@@ -75,16 +75,16 @@ const sources = sourceList.reduce((obj, source) => {
   return obj;
 }, {}) 
 
-function attachListenerForClass (className: string, listener: EventListener)  {
+function attachListenerForClass (className: string, listener)  {
   const elements = document.getElementsByClassName(className);
   Array.prototype.forEach.call(elements, element => {
-    element.addEventListener('click', listener);
-  }
+    element.addEventListener('click', listener, false);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () =>  {
   attachListenerForClass('source', event => {
-    console.log(event.target.title);
-    console.log(sources[event.target.title]);
+    console.log(event.currentTarget.title );
+    console.log(sources[event.currentTarget.title]);
   });
 });
