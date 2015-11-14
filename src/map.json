@@ -1,0 +1,20 @@
+{
+    "presets": [
+        {
+            "name":"Apple TV",
+            "path":"#"
+        },
+        {
+            "name":"Record Player",
+            "path":"#"
+        },
+        {
+            "name":"Wii",
+            "path":"#"
+        },
+        {
+            "name":"HDMI",
+            "path":"#"
+        }
+    ]
+}
