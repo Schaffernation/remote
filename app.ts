@@ -73,18 +73,25 @@ const sources = sourceList.reduce((obj, source) => {
   var name = source.name;
   obj[name] = source.changes;
   return obj;
-}, {}) 
+}, {})
 
-function attachListenerForClass (className: string, listener)  {
+function  (argument) {
+  // body...
+}
+
+function attachListenerByClassName(className: string, listener)  {
   const elements = document.getElementsByClassName(className);
   Array.prototype.forEach.call(elements, element => {
     element.addEventListener('click', listener, false);
   });
 }
 
+// On ready
 document.addEventListener("DOMContentLoaded", () =>  {
-  attachListenerForClass('source', event => {
+  // Attach Sources
+  attachListenerByClassName('source', event => {
     console.log(event.currentTarget.title );
     console.log(sources[event.currentTarget.title]);
   });
 });
+
