@@ -1,3 +1,7 @@
-.tile
-    a(title=preset.name href=preset.path)
-        div.tile-title=preset.name
+a(class='tile js-button'
+  title=preset.name
+  data-path=preset.path
+  style='background: ' + preset.color + ';')
+    div
+        h1.title=preset.name
+                

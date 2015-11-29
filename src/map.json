@@ -1,20 +1,49 @@
 {
+    "title": "Remote",
     "presets": [
         {
             "name":"Apple TV",
-            "path":"#"
+            "path":"/hdmi/4/audio-src/tos"
         },
         {
             "name":"Record Player",
-            "path":"#"
+            "path":"/audio-src/anlg"
         },
         {
             "name":"Wii",
-            "path":"#"
+            "path":"/hdmi/3/audio-src/tos"
         },
         {
             "name":"HDMI",
-            "path":"#"
+            "path":"/hdmi/1"
+        }
+    ],
+    "devices": [
+        {
+            "name":"HDMI",
+            "path":"hdmi",
+            "options": {
+                "1": "1234",
+                "2": "2345",
+                "3": "3456",
+                "4": "4568"
+            }
+        },
+        {
+            "name":"BelCanto Source",
+            "path":"audio-src",
+            "options": {
+                "tos": "33333",
+                "anlg": "44444"
+            }
+        },
+        {
+            "name":"BelCanto Volume",
+            "path":"audio-vol",
+            "options": {
+                "up": "1234",
+                "down": "2345"
+            }
         }
     ]
 }
