@@ -16,9 +16,11 @@ app.set('view engine', 'jade');
 const colorPalette = [ "#CDA9A4", "#7DBCFD", "#7F6463", "#25387F" ];
 
 var sourceMap = JSON.parse(fs.readFileSync('map.json'));
+var deviceMap = _.indexBy(sourceMap.devices, 'path');
 
 app.get('/', function (req, res) {
     sourceMap = JSON.parse(fs.readFileSync('map.json'));
+    deviceMap = _.indexBy(sourceMap.devices, 'path');
 
     sourceMap.presets = _.map(sourceMap.presets, function (preset, index) {
         preset.color = colorPalette[index % colorPalette.length];
@@ -29,15 +31,12 @@ app.get('/', function (req, res) {
 });
 
 app.post('/api/*', function (req, res) {
-    const deviceMap = _.indexBy(sourceMap.devices, 'path');
-
-    const deviceSet = urlToSet(res, req.params[0]);
-    _.each(deviceSet, function (setting, device) {
-        const irSetting = deviceMap[device].options[setting];
-        console.log(irSetting);
+    const settings = urlToSet(res, req.params[0]);
+    const signals = _.map(settings, function (setting, device) {
+        return deviceMap[device].settings[setting];
     });
 
-    res.send(deviceSet);
+    res.send(signals);
 });
 
 const server = app.listen(80, function () {

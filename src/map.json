@@ -22,7 +22,7 @@
         {
             "name":"HDMI",
             "path":"hdmi",
-            "options": {
+            "settings": {
                 "1": "1234",
                 "2": "2345",
                 "3": "3456",
@@ -32,7 +32,7 @@
         {
             "name":"BelCanto Source",
             "path":"audio-src",
-            "options": {
+            "settings": {
                 "tos": "33333",
                 "anlg": "44444"
             }
@@ -40,7 +40,7 @@
         {
             "name":"BelCanto Volume",
             "path":"audio-vol",
-            "options": {
+            "settings": {
                 "up": "1234",
                 "down": "2345"
             }
